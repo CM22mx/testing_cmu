@@ -1,6 +1,7 @@
 # Define the database connection to be used for this model.
 connection: "thelook"
 
+
 # include all the views
 include: "/views/**/*.view"
 
@@ -152,6 +153,12 @@ explore: order_items {
     sql_on: ${inventory_items.product_id} = ${products.id} ;;
     relationship: many_to_one
   }
+
+  join: products2 {
+    type: left_outer
+    sql_on: ${inventory_items.product_id} = ${products.id} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: pegdates {}
@@ -206,7 +213,13 @@ explore: ten_million_orders {
 
 explore: test {}
 
-explore: users {}
+explore: users {
+  always_filter: {
+    filters: [users.city: "-%Palmer%,-%Wasilla%,-%Ko%"]
+  }
+
+
+}
 
 explore: user_data {
   join: users {
@@ -250,4 +263,15 @@ explore: xss_test_7 {}
 
 explore: xss_test_8 {}
 
-explore: xss_test_9 {}
+#explore: xss_test_9 {}
+
+#explore: testtemplatedfilter {
+#  join: getdates {
+ #   type: left_outer
+  #  sql_on: ${getdates.anio} = ${testtemplatedfilter.anio} ;;
+  #  relationship: many_to_one
+  #}
+
+
+
+#explore: getdates {}
